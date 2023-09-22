@@ -20,8 +20,12 @@ class position(engine.component):
         super().__init__('position')
 
 class image(engine.component):
-    def __init__(self, path):
+    def __init__(self, path, x, y, w, h):
         self.img = pygame.image.load(path)
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
         super().__init__('image')
 
 # axis é um componente que sinaliza que o objeto se locomove com os direcionais
@@ -62,7 +66,7 @@ class draw(engine.system):
                 if 'camera' in entity.components:
                     for j in entities:
                         if j.name == entity.components['camera'].camName:
-                            i.components['display'].display.blit(entity.components['image'].img, (entity.components['position'].x+j.components['position'].x, entity.components['position'].y+j.components['position'].y))
+                            i.components['display'].display.blit(entity.components['image'].img, (entity.components['position'].x+j.components['position'].x, entity.components['position'].y+j.components['position'].y), (entity.components['image'].x,entity.components['image'].y,entity.components['image'].y,entity.components['image'].w,entity.components['image'].h))
                 else:
                     i.components['display'].display.blit(entity.components['image'].img, (entity.components['position'].x, entity.components['position'].y))
     def run(self, entity, entities, allEntities):

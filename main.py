@@ -35,13 +35,13 @@ def camera(entity, entities, allEntities):
         if i.name == 'player':
             entity.components['position'].x = -max(i.components['position'].x-320, 0)
             entity.components['position'].y = -max(i.components['position'].y-180, 0)
-menu = engine.entity('menu', False, {'position': basics.position(0, 0), 'image': basics.image('menu.png')})
-startSpawner = engine.entity('startSpawner', False, {'script': basics.script(spawnButton), 'position': basics.position(0, 0), 'image': basics.image('start.png'), 'mouse': basics.mouse()})
-player = engine.entity('player', True, {'rigidbody': basics.rigidbody(16, 16), 'position': basics.position(958, 1272), 'speed': basics.speed(5, 5), 'image': basics.image('player.png'), 'axis': basics.axis(), 'camera': basics.camera('floor')})
-wallSpawner = engine.entity('wallSpawner', True, {'camera': basics.camera('floor'), 'image': basics.image('player.png'), 'script': basics.script(spawnWall),'position': basics.position(0, 0), 'mouse': basics.mouse()})
+# menu = engine.entity('menu', False, {'position': basics.position(0, 0), 'image': basics.image('menu.png')})
+# startSpawner = engine.entity('startSpawner', False, {'script': basics.script(spawnButton), 'position': basics.position(0, 0), 'image': basics.image('start.png'), 'mouse': basics.mouse()})
+player = engine.entity('player', True, {'rigidbody': basics.rigidbody(16, 16), 'position': basics.position(958, 1272), 'speed': basics.speed(5, 5), 'image': basics.image('player.png', 0, 0, 16, 16), 'axis': basics.axis(), 'camera': basics.camera('floor')})
+wallSpawner = engine.entity('wallSpawner', True, {'camera': basics.camera('floor'), 'image': basics.image('player.png', 0, 0, 16, 16), 'script': basics.script(spawnWall),'position': basics.position(0, 0), 'mouse': basics.mouse()})
 display = engine.entity('display', True, {'display': basics.display(640, 360)})
-floor = engine.entity('floor', True, {'script': basics.script(camera), 'position': basics.position(0, 0), 'image': basics.image('floor.png')})
-wall = engine.entity('walls', True, {'script': basics.script(camera), 'position': basics.position(0, 0), 'image': basics.image('wall.png')})
+floor = engine.entity('floor', True, {'script': basics.script(camera), 'position': basics.position(0, 0), 'image': basics.image('floor.png', 0, 0, 16, 16)})
+wall = engine.entity('walls', True, {'script': basics.script(camera), 'position': basics.position(0, 0), 'image': basics.image('wall.png', 0, 0, 16, 16)})
 entities = [floor, player, display, wallSpawner, wall
             ]
 for i in assets.walls:
