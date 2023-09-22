@@ -1,12 +1,17 @@
 import pygame
 import sys
 import engine
+def noop(a,b,c):
+    pass
 # display é um componente para uma entidade ser uma tela
 class display(engine.component):
     def __init__(self, w, h):
         self.display = pygame.display.set_mode((w,h))
         super().__init__('display')
 
+class kinetic(engine.component):
+    def __init__(self):
+        super().__init__('display')
 class speed(engine.component):
     def __init__(self, x, y):
         self.x = x
@@ -20,12 +25,17 @@ class position(engine.component):
         super().__init__('position')
 
 class image(engine.component):
-    def __init__(self, path, x, y, w, h):
+    def __init__(self, path, x=None, y=None, w=None, h=None):
         self.img = pygame.image.load(path)
         self.x = x
         self.y = y
         self.w = w
         self.h = h
+        if type(x) != type(0):
+            self.x = 0
+            self.y = 0
+            self.w = self.img.get_width()
+            self.h = self.img.get_height()
         super().__init__('image')
 
 # axis é um componente que sinaliza que o objeto se locomove com os direcionais
@@ -44,11 +54,11 @@ class script(engine.component):
         super().__init__('script')
 # um rigidbody é um componente que indica que a entidade é sólida e cria colisão entre entidades com rigidbody e position
 class rigidbody(engine.component):
-    def __init__(self, w, h):
+    def __init__(self, w, h, fn=noop):
         self.w = w
         self.h = h
+        self.fn = fn
         super().__init__('rigidbody')
-
 class clickable(engine.component):
     def __init__(self, fn):
         self.fn = fn
@@ -66,9 +76,9 @@ class draw(engine.system):
                 if 'camera' in entity.components:
                     for j in entities:
                         if j.name == entity.components['camera'].camName:
-                            i.components['display'].display.blit(entity.components['image'].img, (entity.components['position'].x+j.components['position'].x, entity.components['position'].y+j.components['position'].y), (entity.components['image'].x,entity.components['image'].y,entity.components['image'].y,entity.components['image'].w,entity.components['image'].h))
+                            i.components['display'].display.blit(entity.components['image'].img, (entity.components['position'].x+j.components['position'].x, entity.components['position'].y+j.components['position'].y), (entity.components['image'].x,entity.components['image'].y,entity.components['image'].w,entity.components['image'].h))
                 else:
-                    i.components['display'].display.blit(entity.components['image'].img, (entity.components['position'].x, entity.components['position'].y))
+                    i.components['display'].display.blit(entity.components['image'].img, (entity.components['position'].x, entity.components['position'].y), (entity.components['image'].x,entity.components['image'].y,entity.components['image'].w,entity.components['image'].h))
     def run(self, entity, entities, allEntities):
         super().run(entity, entities, allEntities)
     def __init__(self):
@@ -131,6 +141,8 @@ class collide(engine.system):
                 rigidEnt = entity.components['rigidbody']
                 if rigidI:
                     if posI.x + rigidI.w > posEnt.x and posEnt.x + rigidEnt.w > posI.x and posI.y + rigidI.h > posEnt.y and posEnt.y + rigidEnt.h > posI.y:
+                        rigidEnt.fn(entity, i, allEntities)
+                        rigidI.fn(i, entity, allEntities)
                         if not (posI.x + rigidI.w > rigidEnt.preX and rigidEnt.preX + rigidEnt.w > posI.x):
                             entity.components['position'].x = entity.components['rigidbody'].preX
                         elif not (posI.y + rigidI.h > rigidEnt.preY and rigidEnt.preY + rigidEnt.h > posI.y):
@@ -155,3 +167,11 @@ class click(engine.system):
         super().run(entity, entities, allEntities)
     def __init__(self):
         super().__init__(self.fn, ['rigidbody', 'position', 'clickable'])
+class walk(engine.system):
+    def fn(self, entity, entities, allEntities):
+        entity.components['position'].x += entity.components['speed'].x
+        entity.components['position'].y += entity.components['speed'].y
+    def run(self, entity, entities, allEntities):
+        super().run(entity, entities, allEntities)
+    def __init__(self):
+        super().__init__(self.fn, ['position', 'speed', 'kinetic'])
