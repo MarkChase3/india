@@ -6,7 +6,7 @@ def noop(a,b,c):
 # display é um componente para uma entidade ser uma tela
 class display(engine.component):
     def __init__(self, w, h):
-        self.display = pygame.display.set_mode((w,h))
+        self.display = pygame.display.set_mode((w,h), pygame.FULLSCREEN)
         super().__init__('display')
 
 class kinetic(engine.component):

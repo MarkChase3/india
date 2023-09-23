@@ -47,7 +47,11 @@ class Sprites:
                 self.y = 0
                 self.texture = pygame.image.load(t).convert()
                 self.entity = e
+                self.ct = [0,0,gamegen.sprites.lengthSpr[0], gamegen.sprites.lengthSpr[1]]
             
+            def setCropArea(self, la):
+                self.ct = la
+
             def setPosition(self, xs ,ys):
                 self.x = xs
                 self.y = ys
@@ -57,15 +61,16 @@ class Sprites:
                 
                 if self.entity == True:
                     for i in range(len(gamegen.sprites.etspriteData)):
-                        if self.x < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0] + 1 and self.x > gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0] -1 and ((self.y < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] and self.y >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y) or (self.y + gamegen.sprites.lengthSpr[1] < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] and self.y + gamegen.sprites.lengthSpr[1] >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y)) and self.name  != gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].name:
-                            sides.append('ewest')
-                        if self.x + gamegen.sprites.lengthSpr[0]-1 > gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x -2 and self.x + gamegen.sprites.lengthSpr[0]-1 < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and ((self.y < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] and self.y >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y) or (self.y + gamegen.sprites.lengthSpr[1] < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] and self.y + gamegen.sprites.lengthSpr[1] >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y)) and self.name  != gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].name:
-                            sides.append('elest')
-                        if self.y + gamegen.sprites.lengthSpr[0]-1 < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y and self.y + gamegen.sprites.lengthSpr[0]-1 > gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y-2 and ((self.x >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and self.x < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0]) or (self.x + gamegen.sprites.lengthSpr[0] >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and self.x + gamegen.sprites.lengthSpr[0] < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0])) and self.name  != gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].name:
-                            sides.append('esouth')
-                        if self.y > gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] -1 and self.y  < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] +1 and ((self.x >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and self.x < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0]) or (self.x + gamegen.sprites.lengthSpr[0] >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and self.x + gamegen.sprites.lengthSpr[0] < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0])) and self.name  != gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].name:
-                            sides.append('enorth')
-
+                        if gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].colisible==True:
+                            if self.x < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0] + 1 and self.x > gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0] -1 and ((self.y < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] and self.y >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y) or (self.y + gamegen.sprites.lengthSpr[1] < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] and self.y + gamegen.sprites.lengthSpr[1] >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y)) and self.name  != gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].name:
+                                sides.append('ewest')
+                            if self.x + gamegen.sprites.lengthSpr[0]-1 > gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x -2 and self.x + gamegen.sprites.lengthSpr[0]-1 < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and ((self.y < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] and self.y >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y) or (self.y + gamegen.sprites.lengthSpr[1] < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] and self.y + gamegen.sprites.lengthSpr[1] >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y)) and self.name  != gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].name:
+                                sides.append('elest')
+                            if self.y + gamegen.sprites.lengthSpr[0]-1 < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y and self.y + gamegen.sprites.lengthSpr[0]-1 > gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y-2 and ((self.x >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and self.x < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0]) or (self.x + gamegen.sprites.lengthSpr[0] >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and self.x + gamegen.sprites.lengthSpr[0] < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0])) and self.name  != gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].name:
+                                sides.append('esouth')
+                            if self.y > gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] -1 and self.y  < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y + gamegen.sprites.lengthSpr[1] +1 and ((self.x >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and self.x < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0]) or (self.x + gamegen.sprites.lengthSpr[0] >= gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x and self.x + gamegen.sprites.lengthSpr[0] < gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x + gamegen.sprites.lengthSpr[0])) and self.name  != gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].name:
+                                sides.append('enorth')
+                            
                 if gamegen.sprites.spriteData[gamegen.world.actuallyWorld[int(self.y/gamegen.sprites.lengthSpr[1])][int((self.x -d)/gamegen.sprites.lengthSpr[0])]].colisible==True or gamegen.sprites.spriteData[gamegen.world.actuallyWorld[int((self.y + gamegen.sprites.lengthSpr[1] -1)/gamegen.sprites.lengthSpr[1])][int((self.x -d)/gamegen.sprites.lengthSpr[0])]].colisible==True:
                     sides.append('west');
                 if gamegen.sprites.spriteData[gamegen.world.actuallyWorld[int(self.y/gamegen.sprites.lengthSpr[1])][int((self.x + gamegen.sprites.lengthSpr[0] - 1 + d)/gamegen.sprites.lengthSpr[0])]].colisible==True or gamegen.sprites.spriteData[gamegen.world.actuallyWorld[int((self.y + gamegen.sprites.lengthSpr[1] -1)/gamegen.sprites.lengthSpr[1])][int((self.x + gamegen.sprites.lengthSpr[0] - 1 + d)/gamegen.sprites.lengthSpr[0])]].colisible==True:
@@ -101,7 +106,7 @@ class Camera:
         self.act = a
 
     def test(self):
-        self.act.blit(gamegen.sprites.spriteData[gamegen.world.actuallyWorld[0][0]].texture, (0, 0))
+        self.act.blit(gamegen.sprites.spriteData[gamegen.world.actuallyWorld[0][0]].texture, (0, 0), gamegen.sprites.spriteData[gamegen.world.actuallyWorld[0][0]].ct)
 
     def frame(self):
         ty = int(self.videoMode[1]/gamegen.sprites.lengthSpr[1])
@@ -124,8 +129,8 @@ class Camera:
         
         ac = [False, False]
 
-        kpx=0
-        kpy=0
+        kpx=0;
+        kpy=0;
 
         if sbx<0:
             offx =0
@@ -160,10 +165,10 @@ class Camera:
                 except:
                     at = 0
                 if (type(at) == type(0)):
-                    self.act.blit(gamegen.sprites.spriteData[at].texture, ((x - sbx)*gamegen.sprites.lengthSpr[0] - offx, (y - sby)*gamegen.sprites.lengthSpr[1] - offy))
+                    self.act.blit(gamegen.sprites.spriteData[at].texture, ((x - sbx)*gamegen.sprites.lengthSpr[0] - offx, (y - sby)*gamegen.sprites.lengthSpr[1] - offy), gamegen.sprites.spriteData[at].ct)
                 else:
                     for i in range(at.length):
-                        self.act.blit(gamegen.sprites.spriteData[at].texture, ((x - (rpx - int(tx/2)))*gamegen.sprites.lengthSpr[0] - offx, (y - (rpy - int(ty/2)))*gamegen.sprites.lengthSpr[1] - offy))
+                        self.act.blit(gamegen.sprites.spriteData[at].texture, ((x - (rpx - int(tx/2)))*gamegen.sprites.lengthSpr[0] - offx, (y - (rpy - int(ty/2)))*gamegen.sprites.lengthSpr[1] - offy), gamegen.sprites.spriteData[at].ct)
         
         ppx = int(tx/2)
         ppy = int(ty/2)
@@ -171,7 +176,7 @@ class Camera:
             ppx = (gamegen.sprites.spriteData[self.focus].x-kpx)/gamegen.sprites.lengthSpr[0]
         if ac[1]:
             ppy = (gamegen.sprites.spriteData[self.focus].y-kpy)/gamegen.sprites.lengthSpr[1]
-        self.act.blit(gamegen.sprites.spriteData[self.focus].texture, (ppx * gamegen.sprites.lengthSpr[0],ppy * gamegen.sprites.lengthSpr[1]))
+        self.act.blit(gamegen.sprites.spriteData[self.focus].texture, (ppx * gamegen.sprites.lengthSpr[0],ppy * gamegen.sprites.lengthSpr[1]), gamegen.sprites.spriteData[self.focus].ct)
         for i in range(len(gamegen.sprites.etspriteData)):
                 if (gamegen.sprites.etspriteData[i] != self.focus):
-                    self.act.blit(gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].texture, (gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x - (sbx *  gamegen.sprites.lengthSpr[0]) -offx, gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y - (sby *  gamegen.sprites.lengthSpr[1]) - offy))
+                    self.act.blit(gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].texture, (gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].x - (sbx *  gamegen.sprites.lengthSpr[0]) -offx, gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].y - (sby *  gamegen.sprites.lengthSpr[1]) - offy), gamegen.sprites.spriteData[gamegen.sprites.etspriteData[i]].ct)
